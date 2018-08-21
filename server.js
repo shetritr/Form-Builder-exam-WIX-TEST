@@ -1,13 +1,19 @@
-import http from "http";
+import config from "./config";
+import express from "express";
+import apiRouter from "./api";
 
-const server = http.createServer();
+const server = express();
 
-server.listen(8080);
+server.set("view engine", "ejs");
 
-server.on("request", (req, res) => {
-  res.write("hello world" + "\n");
-  setTimeout(() => {
-    res.write("I can Stream\n");
-    res.end();
-  }, 5000);
+server.get("/", (req, res) => {
+  res.render("index", { contect: "hello world" });
+});
+
+server.use("/api", apiRouter);
+
+server.use(express.static("public"));
+
+server.listen(config.port, () => {
+  console.info("Express listening on port ", config.port);
 });
