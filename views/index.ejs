@@ -1,15 +1,10 @@
-<html>
+<script type="text/javascript">
+    window.initData = <%- JSON.stringify(initData) -%>;
+</script>
 
-<head>
-    <title>H</title>
-</head>
 
-<body>
+<%- include('header') -%>
     <div id="root">
+        <%-initMarkup -%>
     </div>
-    <script src="/bundle.js"></script>
-</body>
-
-
-
-</html>
+    <%- include('footer') -%>

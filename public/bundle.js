@@ -57,13 +57,13 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _App = __webpack_require__(/*! ./components/App */ 26);
+	var _App = __webpack_require__(/*! ./components/App */ 25);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	_reactDom2.default.render(_react2.default.createElement(_App2.default, { headerMessage: "hello world 5" }), document.getElementById("root"));
+	_reactDom2.default.render(_react2.default.createElement(_App2.default, { init: window.initData.contests }), document.getElementById("root"));
 
 /***/ },
 /* 1 */
@@ -8057,6 +8057,84 @@
 
 /***/ },
 /* 25 */
+/*!*******************************!*\
+  !*** ./src/components/App.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Header = __webpack_require__(/*! ./Header */ 26);
+	
+	var _Header2 = _interopRequireDefault(_Header);
+	
+	var _ContestList = __webpack_require__(/*! ./ContestList */ 27);
+	
+	var _ContestList2 = _interopRequireDefault(_ContestList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var App = function (_React$Component) {
+	  _inherits(App, _React$Component);
+	
+	  function App() {
+	    var _ref;
+	
+	    var _temp, _this, _ret;
+	
+	    _classCallCheck(this, App);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+	      pageHeader: "Hello world 9",
+	      contests: _this.props.init
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+	
+	  _createClass(App, [{
+	    key: "componentDidMount",
+	    value: function componentDidMount() {}
+	  }, {
+	    key: "componentWillUnmount",
+	    value: function componentWillUnmount() {}
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "App" },
+	        _react2.default.createElement(_Header2.default, { message: this.state.pageHeader }),
+	        _react2.default.createElement(_ContestList2.default, { contests: this.state.contests })
+	      );
+	    }
+	  }]);
+	
+	  return App;
+	}(_react2.default.Component);
+	
+	exports.default = App;
+
+/***/ },
+/* 26 */
 /*!**********************************!*\
   !*** ./src/components/Header.js ***!
   \**********************************/
@@ -8079,18 +8157,19 @@
 	
 	  return _react2.default.createElement(
 	    "h1",
-	    null,
-	    message
+	    { className: "text-center" },
+	    message,
+	    " "
 	  );
 	};
 	
 	exports.default = Header;
 
 /***/ },
-/* 26 */
-/*!*******************************!*\
-  !*** ./src/components/App.js ***!
-  \*******************************/
+/* 27 */
+/*!***************************************!*\
+  !*** ./src/components/ContestList.js ***!
+  \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8099,36 +8178,102 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Header = __webpack_require__(/*! ./Header */ 25);
+	var _contestPreview = __webpack_require__(/*! ./contestPreview */ 28);
 	
-	var _Header2 = _interopRequireDefault(_Header);
+	var _contestPreview2 = _interopRequireDefault(_contestPreview);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var App = function App(props) {
+	var ContestList = function ContestList(_ref) {
+	  var contests = _ref.contests;
+	
 	  return _react2.default.createElement(
 	    "div",
-	    null,
-	    _react2.default.createElement(_Header2.default, { message: "hello world 4" }),
-	    _react2.default.createElement(
-	      "h2",
-	      null,
-	      " ",
-	      props.headerMessage
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      null,
-	      "fgdfgdfgdfgdfg"
-	    )
+	    { className: "ContestsList" },
+	    contests.map(function (contest) {
+	      return _react2.default.createElement(_contestPreview2.default, _extends({ key: contest.id }, contest));
+	    })
 	  );
 	};
 	
-	exports.default = App;
+	exports.default = ContestList;
+
+/***/ },
+/* 28 */
+/*!******************************************!*\
+  !*** ./src/components/contestPreview.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ContestPreview = function (_React$Component) {
+	  _inherits(ContestPreview, _React$Component);
+	
+	  function ContestPreview() {
+	    var _ref;
+	
+	    var _temp, _this, _ret;
+	
+	    _classCallCheck(this, ContestPreview);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContestPreview.__proto__ || Object.getPrototypeOf(ContestPreview)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
+	      console.log(_this.props.contestName);
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+	
+	  _createClass(ContestPreview, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "link ContestPreview" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "category-name", onClick: this.handleClick },
+	          this.props.categoryName
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "contest-name" },
+	          this.props.contestName
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ContestPreview;
+	}(_react2.default.Component);
+	
+	exports.default = ContestPreview;
 
 /***/ }
 /******/ ]);

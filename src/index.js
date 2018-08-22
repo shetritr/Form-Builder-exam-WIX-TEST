@@ -3,6 +3,6 @@ import ReactDom from "react-dom";
 import App from "./components/App";
 
 ReactDom.render(
-  <App headerMessage="hello world 5" />,
+  <App init={window.initData.contests} />,
   document.getElementById("root")
 );
