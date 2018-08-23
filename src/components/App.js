@@ -3,6 +3,7 @@ import Header from "./Header";
 import ContestList from "./ContestList";
 import Contest from "./Contest";
 import * as api from "../api";
+import Table from "./Table";
 
 const pushState = (obj, url) => {
   window.history.pushState(obj, "", url);
@@ -67,7 +68,8 @@ class App extends React.Component {
     if (this.state.currentContestId) {
       return this.currentContenst().contestName;
     }
-    return "Naming Contests";
+
+    return "Forms List Page";
   }
 
   currentContent() {
@@ -91,7 +93,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header message={this.pageHeader()} />
-        {this.currentContent()}
+        <Table />
+        {/* {this.currentContent()} */}
       </div>
     );
   }

@@ -1,15 +1,16 @@
-.ContestPreview {
-  margin: 1em;
-  border: 1px solid #ccc;
+.Table {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
 }
-.ContestPreview .category-name {
+.Table .a {
   border-bottom: 1px solid #ccc;
-  padding: 0.25em 0.5em;
+  padding: 0.25em 1em;
   font-weight: bold;
   background-color: #eee;
 }
 
-.ContestPreview .contest-name {
+.Table {
   padding: 0.5em;
 }
 

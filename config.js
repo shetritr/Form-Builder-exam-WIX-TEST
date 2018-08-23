@@ -1,9 +1,12 @@
 const env = process.env;
 
+export const nodeEnv = env.NODE_ENV || "development";
+
 export default {
-  port: env.port || 3030,
-  host: env.host || "localhost",
+  mongodbUri: "mongodb://localhost:27017/test",
+  port: env.PORT || 3030,
+  host: env.HOST || "0.0.0.0",
   get serverUrl() {
-    return "http://" + this.host + ":" + this.port;
+    return `http://${this.host}:${this.port}`;
   }
 };
