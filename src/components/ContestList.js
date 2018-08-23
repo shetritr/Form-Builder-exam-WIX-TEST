@@ -1,11 +1,15 @@
 import React from "react";
 import ContestPreview from "./contestPreview";
 
-const ContestList = ({ contests }) => {
+const ContestList = ({ contests, onContestClick }) => {
   return (
     <div className="ContestsList">
-      {contests.map(contest => (
-        <ContestPreview key={contest.id} {...contest} />
+      {Object.keys(contests).map(contestId => (
+        <ContestPreview
+          key={contestId}
+          onClick={onContestClick}
+          {...contests[contestId]}
+        />
       ))}
     </div>
   );

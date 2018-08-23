@@ -16,3 +16,8 @@
 .link.ContestPreview {
   cursor: pointer;
 }
+.Contest .home-link {
+  margin-top: 1em;
+  color: #0000ee;
+  cursor: pointer;
+}

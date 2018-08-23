@@ -2,7 +2,7 @@ import React from "react";
 
 export default class ContestPreview extends React.Component {
   handleClick = () => {
-    console.log(this.props.contestName);
+    this.props.onClick(this.props.id);
   };
   render() {
     return (
