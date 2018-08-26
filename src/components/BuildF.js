@@ -55,7 +55,7 @@ class BuildF extends Component {
           </div>
 
           <button type="submit" className="pure-button pure-button-primary">
-            Add
+            Add Field
           </button>
         </fieldset>
       </form>

@@ -154,6 +154,7 @@ class App extends React.Component {
       })
     );
     this.fetchContestsList();
+    this.fetchContestsList();
   };
 
   addSubmission = (id, fields) => {
