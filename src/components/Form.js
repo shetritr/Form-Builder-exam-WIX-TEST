@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Table from "./Table";
 
-export default class Contest extends Component {
+export default class Form extends Component {
   SumbitForm = e => {
     e.preventDefault();
     let fields = [];
@@ -10,7 +10,7 @@ export default class Contest extends Component {
     }
 
     this.props.onSubmissionsClick(this.props.id, fields);
-    this.props.contestListClick();
+    this.props.formListClick();
   };
   userTable = user => {
     let i = 0;
@@ -39,8 +39,8 @@ export default class Contest extends Component {
       );
     }
     return (
-      <div className="Contest">
-        <button className="pure-button" onClick={this.props.contestListClick}>
+      <div className="Form">
+        <button className="pure-button" onClick={this.props.formListClick}>
           Form List
         </button>
         <form

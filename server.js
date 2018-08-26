@@ -11,8 +11,8 @@ server.set("view engine", "ejs");
 
 import serverRender from "./serverRender";
 
-server.get(["/", "/contest/:contestId", "/formbuilder"], (req, res) => {
-  serverRender(req.params.contestId)
+server.get(["/", "/form/:formId"], (req, res) => {
+  serverRender(req.params.formId)
     .then(({ initMarkup, initData }) => {
       res.render("index", { initMarkup, initData });
     })

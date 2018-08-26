@@ -21971,19 +21971,19 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _ContestList = __webpack_require__(/*! ./ContestList */ 174);
+	var _FormList = __webpack_require__(/*! ./FormList */ 174);
 	
-	var _ContestList2 = _interopRequireDefault(_ContestList);
+	var _FormList2 = _interopRequireDefault(_FormList);
 	
-	var _Contest = __webpack_require__(/*! ./Contest */ 176);
+	var _Form = __webpack_require__(/*! ./Form */ 176);
 	
-	var _Contest2 = _interopRequireDefault(_Contest);
+	var _Form2 = _interopRequireDefault(_Form);
 	
-	var _api = __webpack_require__(/*! ../api */ 177);
+	var _api = __webpack_require__(/*! ../api */ 178);
 	
 	var api = _interopRequireWildcard(_api);
 	
-	var _Table = __webpack_require__(/*! ./Table */ 204);
+	var _Table = __webpack_require__(/*! ./Table */ 177);
 	
 	var _Table2 = _interopRequireDefault(_Table);
 	
@@ -22036,52 +22036,53 @@
 	      api.fetchSubmissions(PageId).then(function (Page) {
 	        _this.setState({
 	          currentSubmissionsPageId: Page.Name,
-	          currentContestId: PageId,
+	          currentFormId: PageId,
 	          currentSubmissionsPage: Page
 	        });
 	      });
-	    }, _this.fetchContest = function (contestId) {
-	      if (contestId > 0) {
+	    }, _this.fetchForm = function (formId) {
+	      if (formId > 0) {
 	        pushState({
-	          currentContestId: contestId
-	        }, "/contest/" + contestId);
-	        api.fetchContest(contestId).then(function (contest) {
+	          currentFormId: formId
+	        }, "/form/" + formId);
+	        api.fetchForm(formId).then(function (form) {
 	          _this.setState({
-	            currentContestId: contest.id,
-	            contests: _extends({}, _this.state.contests, _defineProperty({}, contest.id, contest))
+	            currentFormId: form.id,
+	            forms: _extends({}, _this.state.forms, _defineProperty({}, form.id, form))
 	          });
 	        });
 	      } else {
 	        pushState({
-	          currentContestId: contestId
+	          currentFormId: formId
 	        }, "/formbuilder");
 	        _this.setState({
-	          currentContestId: contestId
+	          currentFormId: formId
 	        });
 	      }
-	    }, _this.fetchContestsList = function () {
+	    }, _this.fetchFormsList = function () {
 	      pushState({
-	        currentContestId: null,
+	        currentFormId: null,
 	        currentSubmissionsPageId: null
 	      }, "/");
-	      api.fetchContestsList().then(function (contests) {
+	      api.fetchFormsList().then(function (forms) {
 	        _this.setState({
-	          currentContestId: null,
+	          currentFormId: null,
 	          currentSubmissionsPageId: null,
-	          contests: contests
+	          forms: forms
 	        });
 	      });
 	    }, _this.addForm = function (name, fields) {
-	      api.addForm(name, fields).then(api.fetchContestsList().then(function (contests) {
+	      api.addForm(name, fields).then(api.fetchFormsList().then(function (forms) {
 	        _this.setState({
-	          contests: contests
+	          forms: forms
 	        });
 	      }));
-	      _this.fetchContestsList();
+	      _this.fetchFormsList();
+	      _this.fetchFormsList();
 	    }, _this.addSubmission = function (id, fields) {
-	      api.addSubmission(id, fields).then(api.fetchContestsList().then(function (contests) {
+	      api.addSubmission(id, fields).then(api.fetchFormsList().then(function (forms) {
 	        _this.setState({
-	          contests: contests
+	          forms: forms
 	        });
 	      }));
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -22094,7 +22095,7 @@
 	
 	      onPopState(function (event) {
 	        _this2.setState({
-	          currentContestId: (event.state || {}).currentContestId,
+	          currentFormId: (event.state || {}).currentFormId,
 	          currentSubmissionsPageId: (event.state || {}).currentSubmissionsPageId
 	        });
 	      });
@@ -22107,14 +22108,14 @@
 	  }, {
 	    key: "currentContenst",
 	    value: function currentContenst() {
-	      if (this.state.currentContestId == 0) return { Name: "Form Builder" };
-	      return this.state.contests[this.state.currentContestId];
+	      if (this.state.currentFormId == 0) return { Name: "Form Builder" };
+	      return this.state.forms[this.state.currentFormId];
 	    }
 	  }, {
 	    key: "pageHeader",
 	    value: function pageHeader() {
 	      if (this.state.currentSubmissionsPageId) return "Submissions Page :" + this.currentContenst().Name;
-	      if (this.state.currentContestId != undefined) {
+	      if (this.state.currentFormId != undefined) {
 	        return this.currentContenst().Name;
 	      }
 	
@@ -22124,26 +22125,23 @@
 	    key: "currentContent",
 	    value: function currentContent() {
 	      if (this.state.currentSubmissionsPageId != undefined) {
-	        return [_react2.default.createElement(_Contest2.default, _extends({ SubPage: "1" }, this.state.currentSubmissionsPage)), ""];
+	        return [_react2.default.createElement(_Form2.default, _extends({ SubPage: "1" }, this.state.currentSubmissionsPage)), ""];
 	      }
 	
-	      if (this.state.currentContestId != undefined) {
-	        if (this.state.currentContestId < 1) {
-	          return [_react2.default.createElement(_BuildF2.default, {
-	            addForm: this.addForm,
-	            contestListClick: this.fetchContestsList
-	          }), ""];
+	      if (this.state.currentFormId != undefined) {
+	        if (this.state.currentFormId < 1) {
+	          return [_react2.default.createElement(_BuildF2.default, { addForm: this.addForm, formListClick: this.fetchFormsList }), ""];
 	        }
-	        return [_react2.default.createElement(_Contest2.default, _extends({
+	        return [_react2.default.createElement(_Form2.default, _extends({
 	          onSubmissionsClick: this.addSubmission,
-	          contestListClick: this.fetchContestsList
+	          formListClick: this.fetchFormsList
 	        }, this.currentContenst())), ""];
 	      }
-	      return [_react2.default.createElement(_ContestList2.default, {
-	        onFormClick: this.fetchContest,
+	      return [_react2.default.createElement(_FormList2.default, {
+	        onFormClick: this.fetchForm,
 	        onSubmissionsClick: this.fetchSubmissions,
-	        contests: this.state.contests
-	      }), _react2.default.createElement(_BuildPageLink2.default, { BuilderClick: this.fetchContest })];
+	        forms: this.state.forms
+	      }), _react2.default.createElement(_BuildPageLink2.default, { BuilderClick: this.fetchForm })];
 	    }
 	  }, {
 	    key: "switchState",
@@ -22155,7 +22153,7 @@
 	            null,
 	            _react2.default.createElement(
 	              "button",
-	              { className: "pure-button", onClick: this.fetchContestsList },
+	              { className: "pure-button", onClick: this.fetchFormsList },
 	              "Form List"
 	            ),
 	            _react2.default.createElement(
@@ -22172,7 +22170,7 @@
 	        }
 	      }
 	
-	      if (this.state.currentContestId != undefined) {
+	      if (this.state.currentFormId != undefined) {
 	        {
 	          return this.currentContent()[0];
 	        }
@@ -22245,9 +22243,9 @@
 
 /***/ },
 /* 174 */
-/*!***************************************!*\
-  !*** ./src/components/ContestList.js ***!
-  \***************************************/
+/*!************************************!*\
+  !*** ./src/components/FormList.js ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22262,37 +22260,37 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _contestPreview = __webpack_require__(/*! ./contestPreview */ 175);
+	var _formPreview = __webpack_require__(/*! ./formPreview */ 175);
 	
-	var _contestPreview2 = _interopRequireDefault(_contestPreview);
+	var _formPreview2 = _interopRequireDefault(_formPreview);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var ContestList = function ContestList(_ref) {
-	  var contests = _ref.contests,
+	var FormList = function FormList(_ref) {
+	  var forms = _ref.forms,
 	      onFormClick = _ref.onFormClick,
 	      onSubmissionsClick = _ref.onSubmissionsClick;
 	
 	  return _react2.default.createElement(
 	    "tbody",
-	    { className: "ContestsList" },
-	    Object.keys(contests).map(function (contestId) {
-	      return _react2.default.createElement(_contestPreview2.default, _extends({
-	        key: contestId,
+	    { className: "FormsList" },
+	    Object.keys(forms).map(function (formId) {
+	      return _react2.default.createElement(_formPreview2.default, _extends({
+	        key: formId,
 	        onFormClick: onFormClick,
 	        onSubmissionsClick: onSubmissionsClick
-	      }, contests[contestId]));
+	      }, forms[formId]));
 	    })
 	  );
 	};
 	
-	exports.default = ContestList;
+	exports.default = FormList;
 
 /***/ },
 /* 175 */
-/*!******************************************!*\
-  !*** ./src/components/contestPreview.js ***!
-  \******************************************/
+/*!***************************************!*\
+  !*** ./src/components/formPreview.js ***!
+  \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22315,28 +22313,28 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var ContestPreview = function (_React$Component) {
-	  _inherits(ContestPreview, _React$Component);
+	var FormPreview = function (_React$Component) {
+	  _inherits(FormPreview, _React$Component);
 	
-	  function ContestPreview() {
+	  function FormPreview() {
 	    var _ref;
 	
 	    var _temp, _this, _ret;
 	
-	    _classCallCheck(this, ContestPreview);
+	    _classCallCheck(this, FormPreview);
 	
 	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	      args[_key] = arguments[_key];
 	    }
 	
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContestPreview.__proto__ || Object.getPrototypeOf(ContestPreview)).call.apply(_ref, [this].concat(args))), _this), _this.SubmitPage = function () {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = FormPreview.__proto__ || Object.getPrototypeOf(FormPreview)).call.apply(_ref, [this].concat(args))), _this), _this.SubmitPage = function () {
 	      _this.props.onFormClick(_this.props.id);
 	    }, _this.SubmissionsPage = function () {
 	      _this.props.onSubmissionsClick(_this.props.Name, _this.props.id);
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 	
-	  _createClass(ContestPreview, [{
+	  _createClass(FormPreview, [{
 	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -22379,16 +22377,16 @@
 	    }
 	  }]);
 	
-	  return ContestPreview;
+	  return FormPreview;
 	}(_react2.default.Component);
 	
-	exports.default = ContestPreview;
+	exports.default = FormPreview;
 
 /***/ },
 /* 176 */
-/*!***********************************!*\
-  !*** ./src/components/Contest.js ***!
-  \***********************************/
+/*!********************************!*\
+  !*** ./src/components/Form.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22403,7 +22401,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Table = __webpack_require__(/*! ./Table */ 204);
+	var _Table = __webpack_require__(/*! ./Table */ 177);
 	
 	var _Table2 = _interopRequireDefault(_Table);
 	
@@ -22415,21 +22413,21 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Contest = function (_Component) {
-	  _inherits(Contest, _Component);
+	var Form = function (_Component) {
+	  _inherits(Form, _Component);
 	
-	  function Contest() {
+	  function Form() {
 	    var _ref;
 	
 	    var _temp, _this, _ret;
 	
-	    _classCallCheck(this, Contest);
+	    _classCallCheck(this, Form);
 	
 	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	      args[_key] = arguments[_key];
 	    }
 	
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Contest.__proto__ || Object.getPrototypeOf(Contest)).call.apply(_ref, [this].concat(args))), _this), _this.SumbitForm = function (e) {
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Form.__proto__ || Object.getPrototypeOf(Form)).call.apply(_ref, [this].concat(args))), _this), _this.SumbitForm = function (e) {
 	      e.preventDefault();
 	      var fields = [];
 	      for (var ref in _this.refs) {
@@ -22437,7 +22435,7 @@
 	      }
 	
 	      _this.props.onSubmissionsClick(_this.props.id, fields);
-	      _this.props.contestListClick();
+	      _this.props.formListClick();
 	    }, _this.userTable = function (user) {
 	      var i = 0;
 	      return user.map(function (userAns) {
@@ -22464,10 +22462,10 @@
 	      }
 	      return _react2.default.createElement(
 	        "div",
-	        { className: "Contest" },
+	        { className: "Form" },
 	        _react2.default.createElement(
 	          "button",
-	          { className: "pure-button", onClick: _this.props.contestListClick },
+	          { className: "pure-button", onClick: _this.props.formListClick },
 	          "Form List"
 	        ),
 	        _react2.default.createElement(
@@ -22507,20 +22505,101 @@
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 	
-	  _createClass(Contest, [{
+	  _createClass(Form, [{
 	    key: "render",
 	    value: function render() {
 	      return this.switchSubOrSubS(this.props.SubPage);
 	    }
 	  }]);
 	
-	  return Contest;
+	  return Form;
 	}(_react.Component);
 	
-	exports.default = Contest;
+	exports.default = Form;
 
 /***/ },
 /* 177 */
+/*!*********************************!*\
+  !*** ./src/components/Table.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Table = function (_Component) {
+	  _inherits(Table, _Component);
+	
+	  function Table() {
+	    var _ref;
+	
+	    var _temp, _this, _ret;
+	
+	    _classCallCheck(this, Table);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Table.__proto__ || Object.getPrototypeOf(Table)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+	      dataColumns: [{ index: 1, id: "Form id" }, { index: 2, id: "Form Name" }, { index: 3, id: "# Submissions" }, { index: 4, id: "Submit Page	" }, { index: 5, id: "Submissions Page" }]
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+	
+	  _createClass(Table, [{
+	    key: "render",
+	    value: function render() {
+	      if (this.props.head) {
+	        return _react2.default.createElement(
+	          "tr",
+	          null,
+	          this.props.head.map(function (column) {
+	            return _react2.default.createElement(
+	              "th",
+	              { className: "a", key: column.id },
+	              column.Label
+	            );
+	          })
+	        );
+	      }
+	      return _react2.default.createElement(
+	        "tr",
+	        null,
+	        this.state.dataColumns.map(function (column) {
+	          return _react2.default.createElement(
+	            "th",
+	            { className: "a", key: column.index },
+	            column.id
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return Table;
+	}(_react.Component);
+	
+	exports.default = Table;
+
+/***/ },
+/* 178 */
 /*!********************!*\
   !*** ./src/api.js ***!
   \********************/
@@ -22531,9 +22610,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.addSubmission = exports.addForm = exports.fetchContestsList = exports.fetchContest = exports.fetchSubmissions = undefined;
+	exports.addSubmission = exports.addForm = exports.fetchFormsList = exports.fetchForm = exports.fetchSubmissions = undefined;
 	
-	var _axios = __webpack_require__(/*! axios */ 178);
+	var _axios = __webpack_require__(/*! axios */ 179);
 	
 	var _axios2 = _interopRequireDefault(_axios);
 	
@@ -22545,15 +22624,15 @@
 	  });
 	};
 	
-	var fetchContest = exports.fetchContest = function fetchContest(contestId) {
-	  return _axios2.default.get("/api/contests/" + contestId).then(function (resp) {
+	var fetchForm = exports.fetchForm = function fetchForm(formId) {
+	  return _axios2.default.get("/api/forms/" + formId).then(function (resp) {
 	    return resp.data;
 	  });
 	};
 	
-	var fetchContestsList = exports.fetchContestsList = function fetchContestsList() {
-	  return _axios2.default.get("/api/contests").then(function (resp) {
-	    return resp.data.contests;
+	var fetchFormsList = exports.fetchFormsList = function fetchFormsList() {
+	  return _axios2.default.get("/api/forms").then(function (resp) {
+	    return resp.data.forms;
 	  });
 	};
 	
@@ -22565,7 +22644,7 @@
 	};
 
 /***/ },
-/* 178 */
+/* 179 */
 /*!**************************!*\
   !*** ./~/axios/index.js ***!
   \**************************/
@@ -22573,10 +22652,10 @@
 
 	'use strict';
 	
-	module.exports = __webpack_require__(/*! ./lib/axios */ 179);
+	module.exports = __webpack_require__(/*! ./lib/axios */ 180);
 
 /***/ },
-/* 179 */
+/* 180 */
 /*!******************************!*\
   !*** ./~/axios/lib/axios.js ***!
   \******************************/
@@ -22584,10 +22663,10 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./utils */ 180);
-	var bind = __webpack_require__(/*! ./helpers/bind */ 181);
-	var Axios = __webpack_require__(/*! ./core/Axios */ 183);
-	var defaults = __webpack_require__(/*! ./defaults */ 184);
+	var utils = __webpack_require__(/*! ./utils */ 181);
+	var bind = __webpack_require__(/*! ./helpers/bind */ 182);
+	var Axios = __webpack_require__(/*! ./core/Axios */ 184);
+	var defaults = __webpack_require__(/*! ./defaults */ 185);
 	
 	/**
 	 * Create an instance of Axios
@@ -22620,15 +22699,15 @@
 	};
 	
 	// Expose Cancel & CancelToken
-	axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 201);
-	axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 202);
-	axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 198);
+	axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 202);
+	axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 203);
+	axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 199);
 	
 	// Expose all/spread
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(/*! ./helpers/spread */ 203);
+	axios.spread = __webpack_require__(/*! ./helpers/spread */ 204);
 	
 	module.exports = axios;
 	
@@ -22636,7 +22715,7 @@
 	module.exports.default = axios;
 
 /***/ },
-/* 180 */
+/* 181 */
 /*!******************************!*\
   !*** ./~/axios/lib/utils.js ***!
   \******************************/
@@ -22646,8 +22725,8 @@
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
-	var bind = __webpack_require__(/*! ./helpers/bind */ 181);
-	var isBuffer = __webpack_require__(/*! is-buffer */ 182);
+	var bind = __webpack_require__(/*! ./helpers/bind */ 182);
+	var isBuffer = __webpack_require__(/*! is-buffer */ 183);
 	
 	/*global toString:true*/
 	
@@ -22946,7 +23025,7 @@
 	};
 
 /***/ },
-/* 181 */
+/* 182 */
 /*!*************************************!*\
   !*** ./~/axios/lib/helpers/bind.js ***!
   \*************************************/
@@ -22965,7 +23044,7 @@
 	};
 
 /***/ },
-/* 182 */
+/* 183 */
 /*!******************************!*\
   !*** ./~/is-buffer/index.js ***!
   \******************************/
@@ -22996,7 +23075,7 @@
 	}
 
 /***/ },
-/* 183 */
+/* 184 */
 /*!***********************************!*\
   !*** ./~/axios/lib/core/Axios.js ***!
   \***********************************/
@@ -23004,10 +23083,10 @@
 
 	'use strict';
 	
-	var defaults = __webpack_require__(/*! ./../defaults */ 184);
-	var utils = __webpack_require__(/*! ./../utils */ 180);
-	var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 195);
-	var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 196);
+	var defaults = __webpack_require__(/*! ./../defaults */ 185);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
+	var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 196);
+	var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 197);
 	
 	/**
 	 * Create a new instance of Axios
@@ -23083,7 +23162,7 @@
 	module.exports = Axios;
 
 /***/ },
-/* 184 */
+/* 185 */
 /*!*********************************!*\
   !*** ./~/axios/lib/defaults.js ***!
   \*********************************/
@@ -23091,8 +23170,8 @@
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(/*! ./utils */ 180);
-	var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 185);
+	var utils = __webpack_require__(/*! ./utils */ 181);
+	var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 186);
 	
 	var DEFAULT_CONTENT_TYPE = {
 	  'Content-Type': 'application/x-www-form-urlencoded'
@@ -23108,10 +23187,10 @@
 	  var adapter;
 	  if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(/*! ./adapters/xhr */ 186);
+	    adapter = __webpack_require__(/*! ./adapters/xhr */ 187);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(/*! ./adapters/http */ 186);
+	    adapter = __webpack_require__(/*! ./adapters/http */ 187);
 	  }
 	  return adapter;
 	}
@@ -23182,7 +23261,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
 
 /***/ },
-/* 185 */
+/* 186 */
 /*!****************************************************!*\
   !*** ./~/axios/lib/helpers/normalizeHeaderName.js ***!
   \****************************************************/
@@ -23190,7 +23269,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ../utils */ 180);
+	var utils = __webpack_require__(/*! ../utils */ 181);
 	
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -23202,7 +23281,7 @@
 	};
 
 /***/ },
-/* 186 */
+/* 187 */
 /*!*************************************!*\
   !*** ./~/axios/lib/adapters/xhr.js ***!
   \*************************************/
@@ -23210,13 +23289,13 @@
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 180);
-	var settle = __webpack_require__(/*! ./../core/settle */ 187);
-	var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 190);
-	var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 191);
-	var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 192);
-	var createError = __webpack_require__(/*! ../core/createError */ 188);
-	var btoa = typeof window !== 'undefined' && window.btoa && window.btoa.bind(window) || __webpack_require__(/*! ./../helpers/btoa */ 193);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
+	var settle = __webpack_require__(/*! ./../core/settle */ 188);
+	var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 191);
+	var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 192);
+	var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 193);
+	var createError = __webpack_require__(/*! ../core/createError */ 189);
+	var btoa = typeof window !== 'undefined' && window.btoa && window.btoa.bind(window) || __webpack_require__(/*! ./../helpers/btoa */ 194);
 	
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -23309,7 +23388,7 @@
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 194);
+	      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 195);
 	
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ? cookies.read(config.xsrfCookieName) : undefined;
@@ -23385,7 +23464,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
 
 /***/ },
-/* 187 */
+/* 188 */
 /*!************************************!*\
   !*** ./~/axios/lib/core/settle.js ***!
   \************************************/
@@ -23393,7 +23472,7 @@
 
 	'use strict';
 	
-	var createError = __webpack_require__(/*! ./createError */ 188);
+	var createError = __webpack_require__(/*! ./createError */ 189);
 	
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -23413,7 +23492,7 @@
 	};
 
 /***/ },
-/* 188 */
+/* 189 */
 /*!*****************************************!*\
   !*** ./~/axios/lib/core/createError.js ***!
   \*****************************************/
@@ -23421,7 +23500,7 @@
 
 	'use strict';
 	
-	var enhanceError = __webpack_require__(/*! ./enhanceError */ 189);
+	var enhanceError = __webpack_require__(/*! ./enhanceError */ 190);
 	
 	/**
 	 * Create an Error with the specified message, config, error code, request and response.
@@ -23439,7 +23518,7 @@
 	};
 
 /***/ },
-/* 189 */
+/* 190 */
 /*!******************************************!*\
   !*** ./~/axios/lib/core/enhanceError.js ***!
   \******************************************/
@@ -23469,7 +23548,7 @@
 	};
 
 /***/ },
-/* 190 */
+/* 191 */
 /*!*****************************************!*\
   !*** ./~/axios/lib/helpers/buildURL.js ***!
   \*****************************************/
@@ -23477,7 +23556,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 180);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	function encode(val) {
 	  return encodeURIComponent(val).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
@@ -23536,7 +23615,7 @@
 	};
 
 /***/ },
-/* 191 */
+/* 192 */
 /*!*********************************************!*\
   !*** ./~/axios/lib/helpers/parseHeaders.js ***!
   \*********************************************/
@@ -23544,7 +23623,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 180);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	// Headers whose duplicates are ignored by node
 	// c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -23594,7 +23673,7 @@
 	};
 
 /***/ },
-/* 192 */
+/* 193 */
 /*!************************************************!*\
   !*** ./~/axios/lib/helpers/isURLSameOrigin.js ***!
   \************************************************/
@@ -23602,7 +23681,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 180);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	module.exports = utils.isStandardBrowserEnv() ?
 	
@@ -23665,7 +23744,7 @@
 	}();
 
 /***/ },
-/* 193 */
+/* 194 */
 /*!*************************************!*\
   !*** ./~/axios/lib/helpers/btoa.js ***!
   \*************************************/
@@ -23708,7 +23787,7 @@
 	module.exports = btoa;
 
 /***/ },
-/* 194 */
+/* 195 */
 /*!****************************************!*\
   !*** ./~/axios/lib/helpers/cookies.js ***!
   \****************************************/
@@ -23716,7 +23795,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 180);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	module.exports = utils.isStandardBrowserEnv() ?
 	
@@ -23769,7 +23848,7 @@
 	}();
 
 /***/ },
-/* 195 */
+/* 196 */
 /*!************************************************!*\
   !*** ./~/axios/lib/core/InterceptorManager.js ***!
   \************************************************/
@@ -23777,7 +23856,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 180);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -23829,7 +23908,7 @@
 	module.exports = InterceptorManager;
 
 /***/ },
-/* 196 */
+/* 197 */
 /*!*********************************************!*\
   !*** ./~/axios/lib/core/dispatchRequest.js ***!
   \*********************************************/
@@ -23837,12 +23916,12 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 180);
-	var transformData = __webpack_require__(/*! ./transformData */ 197);
-	var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 198);
-	var defaults = __webpack_require__(/*! ../defaults */ 184);
-	var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 199);
-	var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 200);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
+	var transformData = __webpack_require__(/*! ./transformData */ 198);
+	var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 199);
+	var defaults = __webpack_require__(/*! ../defaults */ 185);
+	var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 200);
+	var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 201);
 	
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
@@ -23904,7 +23983,7 @@
 	};
 
 /***/ },
-/* 197 */
+/* 198 */
 /*!*******************************************!*\
   !*** ./~/axios/lib/core/transformData.js ***!
   \*******************************************/
@@ -23912,7 +23991,7 @@
 
 	'use strict';
 	
-	var utils = __webpack_require__(/*! ./../utils */ 180);
+	var utils = __webpack_require__(/*! ./../utils */ 181);
 	
 	/**
 	 * Transform the data for a request or a response
@@ -23932,7 +24011,7 @@
 	};
 
 /***/ },
-/* 198 */
+/* 199 */
 /*!****************************************!*\
   !*** ./~/axios/lib/cancel/isCancel.js ***!
   \****************************************/
@@ -23945,7 +24024,7 @@
 	};
 
 /***/ },
-/* 199 */
+/* 200 */
 /*!**********************************************!*\
   !*** ./~/axios/lib/helpers/isAbsoluteURL.js ***!
   \**********************************************/
@@ -23969,7 +24048,7 @@
 	};
 
 /***/ },
-/* 200 */
+/* 201 */
 /*!********************************************!*\
   !*** ./~/axios/lib/helpers/combineURLs.js ***!
   \********************************************/
@@ -23990,7 +24069,7 @@
 	};
 
 /***/ },
-/* 201 */
+/* 202 */
 /*!**************************************!*\
   !*** ./~/axios/lib/cancel/Cancel.js ***!
   \**************************************/
@@ -24018,7 +24097,7 @@
 	module.exports = Cancel;
 
 /***/ },
-/* 202 */
+/* 203 */
 /*!*******************************************!*\
   !*** ./~/axios/lib/cancel/CancelToken.js ***!
   \*******************************************/
@@ -24026,7 +24105,7 @@
 
 	'use strict';
 	
-	var Cancel = __webpack_require__(/*! ./Cancel */ 201);
+	var Cancel = __webpack_require__(/*! ./Cancel */ 202);
 	
 	/**
 	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -24083,7 +24162,7 @@
 	module.exports = CancelToken;
 
 /***/ },
-/* 203 */
+/* 204 */
 /*!***************************************!*\
   !*** ./~/axios/lib/helpers/spread.js ***!
   \***************************************/
@@ -24117,87 +24196,6 @@
 	    return callback.apply(null, arr);
 	  };
 	};
-
-/***/ },
-/* 204 */
-/*!*********************************!*\
-  !*** ./src/components/Table.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Table = function (_Component) {
-	  _inherits(Table, _Component);
-	
-	  function Table() {
-	    var _ref;
-	
-	    var _temp, _this, _ret;
-	
-	    _classCallCheck(this, Table);
-	
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-	
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Table.__proto__ || Object.getPrototypeOf(Table)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-	      dataColumns: [{ index: 1, id: "Form id" }, { index: 2, id: "Form Name" }, { index: 3, id: "# Submissions" }, { index: 4, id: "Submit Page	" }, { index: 5, id: "Submissions Page" }]
-	    }, _temp), _possibleConstructorReturn(_this, _ret);
-	  }
-	
-	  _createClass(Table, [{
-	    key: "render",
-	    value: function render() {
-	      if (this.props.head) {
-	        return _react2.default.createElement(
-	          "tr",
-	          null,
-	          this.props.head.map(function (column) {
-	            return _react2.default.createElement(
-	              "th",
-	              { className: "a", key: column.id },
-	              column.Label
-	            );
-	          })
-	        );
-	      }
-	      return _react2.default.createElement(
-	        "tr",
-	        null,
-	        this.state.dataColumns.map(function (column) {
-	          return _react2.default.createElement(
-	            "th",
-	            { className: "a", key: column.index },
-	            column.id
-	          );
-	        })
-	      );
-	    }
-	  }]);
-	
-	  return Table;
-	}(_react.Component);
-	
-	exports.default = Table;
 
 /***/ },
 /* 205 */
@@ -24383,7 +24381,7 @@
 	          _react2.default.createElement(
 	            "button",
 	            { type: "submit", className: "pure-button pure-button-primary" },
-	            "Add"
+	            "Add Field"
 	          )
 	        )
 	      );
@@ -24417,7 +24415,7 @@
 	        { className: "BuildF" },
 	        _react2.default.createElement(
 	          "button",
-	          { className: "pure-button", onClick: this.props.contestListClick },
+	          { className: "pure-button", onClick: this.props.formListClick },
 	          "Form List"
 	        ),
 	        _react2.default.createElement(

@@ -6,12 +6,12 @@ export const fetchSubmissions = SubmissionsPageId => {
     .then(resp => resp.data);
 };
 
-export const fetchContest = contestId => {
-  return axios.get("/api/contests/" + contestId).then(resp => resp.data);
+export const fetchForm = formId => {
+  return axios.get("/api/forms/" + formId).then(resp => resp.data);
 };
 
-export const fetchContestsList = () => {
-  return axios.get("/api/contests").then(resp => resp.data.contests);
+export const fetchFormsList = () => {
+  return axios.get("/api/forms").then(resp => resp.data.forms);
 };
 
 export const addForm = (name, fields) => {

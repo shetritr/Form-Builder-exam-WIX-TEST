@@ -65,7 +65,7 @@ class BuildF extends Component {
   render() {
     return (
       <div className="BuildF">
-        <button className="pure-button" onClick={this.props.contestListClick}>
+        <button className="pure-button" onClick={this.props.formListClick}>
           Form List
         </button>
         <div className="text-center">

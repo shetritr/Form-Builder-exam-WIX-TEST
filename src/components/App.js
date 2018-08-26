@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
-import ContestList from "./ContestList";
-import Contest from "./Contest";
+import FormList from "./FormList";
+import Form from "./Form";
 import * as api from "../api";
 import Table from "./Table";
 import BuildPageLink from "./BuildPageLink";
@@ -21,7 +21,7 @@ class App extends React.Component {
   componentDidMount() {
     onPopState(event => {
       this.setState({
-        currentContestId: (event.state || {}).currentContestId,
+        currentFormId: (event.state || {}).currentFormId,
         currentSubmissionsPageId: (event.state || {}).currentSubmissionsPageId
       });
     });
@@ -40,68 +40,68 @@ class App extends React.Component {
     api.fetchSubmissions(PageId).then(Page => {
       this.setState({
         currentSubmissionsPageId: Page.Name,
-        currentContestId: PageId,
+        currentFormId: PageId,
         currentSubmissionsPage: Page
       });
     });
   };
 
-  fetchContest = contestId => {
-    if (contestId > 0) {
+  fetchForm = formId => {
+    if (formId > 0) {
       pushState(
         {
-          currentContestId: contestId
+          currentFormId: formId
         },
-        "/contest/" + contestId
+        "/form/" + formId
       );
-      api.fetchContest(contestId).then(contest => {
+      api.fetchForm(formId).then(form => {
         this.setState({
-          currentContestId: contest.id,
-          contests: {
-            ...this.state.contests,
-            [contest.id]: contest
+          currentFormId: form.id,
+          forms: {
+            ...this.state.forms,
+            [form.id]: form
           }
         });
       });
     } else {
       pushState(
         {
-          currentContestId: contestId
+          currentFormId: formId
         },
         "/formbuilder"
       );
       this.setState({
-        currentContestId: contestId
+        currentFormId: formId
       });
     }
   };
 
-  fetchContestsList = () => {
+  fetchFormsList = () => {
     pushState(
       {
-        currentContestId: null,
+        currentFormId: null,
         currentSubmissionsPageId: null
       },
       "/"
     );
-    api.fetchContestsList().then(contests => {
+    api.fetchFormsList().then(forms => {
       this.setState({
-        currentContestId: null,
+        currentFormId: null,
         currentSubmissionsPageId: null,
-        contests
+        forms
       });
     });
   };
 
   currentContenst() {
-    if (this.state.currentContestId == 0) return { Name: "Form Builder" };
-    return this.state.contests[this.state.currentContestId];
+    if (this.state.currentFormId == 0) return { Name: "Form Builder" };
+    return this.state.forms[this.state.currentFormId];
   }
 
   pageHeader() {
     if (this.state.currentSubmissionsPageId)
       return "Submissions Page :" + this.currentContenst().Name;
-    if (this.state.currentContestId != undefined) {
+    if (this.state.currentFormId != undefined) {
       return this.currentContenst().Name;
     }
 
@@ -110,58 +110,52 @@ class App extends React.Component {
 
   currentContent() {
     if (this.state.currentSubmissionsPageId != undefined) {
-      return [
-        <Contest SubPage="1" {...this.state.currentSubmissionsPage} />,
-        ""
-      ];
+      return [<Form SubPage="1" {...this.state.currentSubmissionsPage} />, ""];
     }
 
-    if (this.state.currentContestId != undefined) {
-      if (this.state.currentContestId < 1) {
+    if (this.state.currentFormId != undefined) {
+      if (this.state.currentFormId < 1) {
         return [
-          <BuildF
-            addForm={this.addForm}
-            contestListClick={this.fetchContestsList}
-          />,
+          <BuildF addForm={this.addForm} formListClick={this.fetchFormsList} />,
           ""
         ];
       }
       return [
-        <Contest
+        <Form
           onSubmissionsClick={this.addSubmission}
-          contestListClick={this.fetchContestsList}
+          formListClick={this.fetchFormsList}
           {...this.currentContenst()}
         />,
         ""
       ];
     }
     return [
-      <ContestList
-        onFormClick={this.fetchContest}
+      <FormList
+        onFormClick={this.fetchForm}
         onSubmissionsClick={this.fetchSubmissions}
-        contests={this.state.contests}
+        forms={this.state.forms}
       />,
-      <BuildPageLink BuilderClick={this.fetchContest} />
+      <BuildPageLink BuilderClick={this.fetchForm} />
     ];
   }
 
   addForm = (name, fields) => {
     api.addForm(name, fields).then(
-      api.fetchContestsList().then(contests => {
+      api.fetchFormsList().then(forms => {
         this.setState({
-          contests
+          forms
         });
       })
     );
-    this.fetchContestsList();
-    this.fetchContestsList();
+    this.fetchFormsList();
+    this.fetchFormsList();
   };
 
   addSubmission = (id, fields) => {
     api.addSubmission(id, fields).then(
-      api.fetchContestsList().then(contests => {
+      api.fetchFormsList().then(forms => {
         this.setState({
-          contests
+          forms
         });
       })
     );
@@ -172,7 +166,7 @@ class App extends React.Component {
       {
         return (
           <div>
-            <button className="pure-button" onClick={this.fetchContestsList}>
+            <button className="pure-button" onClick={this.fetchFormsList}>
               Form List
             </button>
             <table className="SubmissionsPage">
@@ -186,7 +180,7 @@ class App extends React.Component {
       }
     }
 
-    if (this.state.currentContestId != undefined) {
+    if (this.state.currentFormId != undefined) {
       {
         return this.currentContent()[0];
       }

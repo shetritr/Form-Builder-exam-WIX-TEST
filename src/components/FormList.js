@@ -1,5 +1,5 @@
-import React from "../../../../../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/react";
-import FormPreview from "./FormPreview";
+import React from "react";
+import FormPreview from "./formPreview";
 
 const FormList = ({ forms, onFormClick, onSubmissionsClick }) => {
   return (

@@ -15,26 +15,26 @@ MongoClient.connect(
 
 const router = express.Router();
 
-router.get("/contests", (req, res) => {
-  let contests = {};
+router.get("/forms", (req, res) => {
+  let forms = {};
   mdb
-    .collection("contests")
+    .collection("forms")
     .find({})
-    .each((err, contest) => {
+    .each((err, form) => {
       assert.equal(null, err);
-      if (!contest) {
-        res.send({ contests });
+      if (!form) {
+        res.send({ forms });
         return;
       }
-      contests[contest.id] = contest;
+      forms[form.id] = form;
     });
 });
 
-router.get("/contests/:Id", (req, res) => {
+router.get("/forms/:Id", (req, res) => {
   mdb
-    .collection("contests")
+    .collection("forms")
     .findOne({ id: Number(req.params.Id) })
-    .then(contest => res.send(contest))
+    .then(form => res.send(form))
     .catch(console.error);
 });
 
@@ -65,10 +65,10 @@ router.post("/newform", (req, res) => {
   const name = req.body.name;
   const fields = req.body.fields;
   mdb
-    .collection("contests")
+    .collection("forms")
     .count()
     .then(id => {
-      mdb.collection("contests").insert({
+      mdb.collection("forms").insert({
         id: id + 1,
         Name: name,
         Submissions: 0,
@@ -86,12 +86,12 @@ router.post("/newSubmission", (req, res) => {
   const id = req.body.id;
   const fields = req.body.fields;
   mdb
-    .collection("contests")
+    .collection("forms")
     .findOne({ id: id })
     .then(resp => {
       resp.Submissions = resp.Submissions + 1;
 
-      mdb.collection("contests").updateOne({ id: id }, resp);
+      mdb.collection("forms").updateOne({ id: id }, resp);
     });
 
   mdb
