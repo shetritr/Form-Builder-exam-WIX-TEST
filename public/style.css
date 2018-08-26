@@ -1,24 +1,56 @@
 .Table {
   margin: auto;
   width: 50%;
-  padding: 10px;
-}
-.Table .a {
-  border-bottom: 1px solid #ccc;
-  padding: 0.25em 1em;
-  font-weight: bold;
-  background-color: #eee;
-}
-
-.Table {
   padding: 0.5em;
 }
+.Table .a {
+  color: black;
+  text-align: center;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0.25em 0.5em;
+  font-weight: bold;
+  background-color: gray;
+}
 
-.link.ContestPreview {
+.Table .id {
+  text-align: center;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0.25em 0.3em;
+  background-color: darkgray;
+}
+.Table .Name {
+  text-align: center;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0.25em 0.3em;
+  background-color: darkgray;
+}
+.Table .Submissions {
+  text-align: center;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0.25em 0.3em;
+  background-color: darkgray;
+}
+.Table .temp2 {
+  text-align: center;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0.25em 0.3em;
+  background-color: darkgray;
   cursor: pointer;
 }
+.Table .temp {
+  text-align: center;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0.25em 0.3em;
+  background-color: darkgray;
+  cursor: pointer;
+}
+
 .Contest .home-link {
   margin-top: 1em;
   color: #0000ee;
   cursor: pointer;
+}
+
+.BuildF {
+  margin: 2em;
 }

@@ -1,17 +1,18 @@
 import React from "react";
 import ContestPreview from "./contestPreview";
 
-const ContestList = ({ contests, onContestClick }) => {
+const ContestList = ({ contests, onFormClick, onSubmissionsClick }) => {
   return (
-    <div className="ContestsList">
+    <tbody className="ContestsList">
       {Object.keys(contests).map(contestId => (
         <ContestPreview
           key={contestId}
-          onClick={onContestClick}
+          onFormClick={onFormClick}
+          onSubmissionsClick={onSubmissionsClick}
           {...contests[contestId]}
         />
       ))}
-    </div>
+    </tbody>
   );
 };
 

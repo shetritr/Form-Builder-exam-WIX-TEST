@@ -1,17 +1,31 @@
 import React from "react";
 
 export default class ContestPreview extends React.Component {
-  handleClick = () => {
-    this.props.onClick(this.props.id);
+  SubmitPage = () => {
+    this.props.onFormClick(this.props.id);
+  };
+  SubmissionsPage = () => {
+    this.props.onSubmissionsClick(this.props.Name, this.props.id);
   };
   render() {
     return (
-      <div className="link ContestPreview">
-        <div className="category-name" onClick={this.handleClick}>
-          {this.props.categoryName}
-        </div>
-        <div className="contest-name">{this.props.contestName}</div>
-      </div>
+      <tr>
+        <th className="id" key={1}>
+          {this.props.id}
+        </th>
+        <th className="Name" key={2}>
+          {this.props.Name}
+        </th>
+        <th className="Submissions" key={3}>
+          {this.props.Submissions}
+        </th>
+        <th className="temp2" key={4} onClick={this.SubmitPage}>
+          <a className="link"> View </a>
+        </th>
+        <th className="temp" key={5} onClick={this.SubmissionsPage}>
+          <a className="link">View </a>
+        </th>
+      </tr>
     );
   }
 }
