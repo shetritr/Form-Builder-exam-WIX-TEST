@@ -8,13 +8,20 @@ export default class Contest extends Component {
     for (var ref in this.refs) {
       fields.push(this.refs[ref].value);
     }
-    console.log(this.props.id);
 
-    // this.props.onSubmissionsClick(this.props.Id, fields);
+    this.props.onSubmissionsClick(this.props.id, fields);
+    this.props.contestListClick();
   };
-
   userTable = user => {
-    console.log(user);
+    let i = 0;
+    return user.map(userAns => {
+      i = i + 1;
+      return (
+        <th className="formUsers" key={i}>
+          {userAns}
+        </th>
+      );
+    });
   };
 
   switchSubOrSubS = SubPage => {
@@ -22,18 +29,20 @@ export default class Contest extends Component {
       return (
         <tbody>
           {this.props.Submissions.map(user => {
-            <tr className="Contest">
-              <th>{this.userTable(user)}</th>
-            </tr>;
+            return (
+              <tr key={this.props.Submissions.indexOf(user)}>
+                {this.userTable(user)}
+              </tr>
+            );
           })}
         </tbody>
       );
     }
     return (
       <div className="Contest">
-        <div className="home-link" onClick={this.props.contestListClick}>
-          Contest List
-        </div>
+        <button className="pure-button" onClick={this.props.contestListClick}>
+          Form List
+        </button>
         <form
           className="pure-form pure-form-aligned"
           onSubmit={this.SumbitForm}

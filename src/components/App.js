@@ -39,7 +39,7 @@ class App extends React.Component {
     );
     api.fetchSubmissions(PageId).then(Page => {
       this.setState({
-        currentSubmissionsPageId: Page.name,
+        currentSubmissionsPageId: Page.Name,
         currentContestId: PageId,
         currentSubmissionsPage: Page
       });
@@ -102,8 +102,6 @@ class App extends React.Component {
     if (this.state.currentSubmissionsPageId)
       return "Submissions Page :" + this.currentContenst().Name;
     if (this.state.currentContestId != undefined) {
-      console.log(this.currentContenst());
-
       return this.currentContenst().Name;
     }
 
@@ -113,23 +111,24 @@ class App extends React.Component {
   currentContent() {
     if (this.state.currentSubmissionsPageId != undefined) {
       return [
-        <Contest
-          contestListClick={this.fetchContestsList}
-          SubPage="1"
-          {...this.state.currentSubmissionsPage}
-        />,
+        <Contest SubPage="1" {...this.state.currentSubmissionsPage} />,
         ""
       ];
     }
 
     if (this.state.currentContestId != undefined) {
       if (this.state.currentContestId < 1) {
-        return [<BuildF addForm={this.addForm} />, ""];
+        return [
+          <BuildF
+            addForm={this.addForm}
+            contestListClick={this.fetchContestsList}
+          />,
+          ""
+        ];
       }
       return [
         <Contest
           onSubmissionsClick={this.addSubmission}
-          formId={this.state.currentContestId}
           contestListClick={this.fetchContestsList}
           {...this.currentContenst()}
         />,
@@ -155,23 +154,33 @@ class App extends React.Component {
       })
     );
     this.fetchContestsList();
-    this.fetchContestsList();
   };
 
   addSubmission = (id, fields) => {
-    api.addSubmission(id, fields).then(api.fetchContestsList());
+    api.addSubmission(id, fields).then(
+      api.fetchContestsList().then(contests => {
+        this.setState({
+          contests
+        });
+      })
+    );
   };
 
   switchState() {
     if (this.state.currentSubmissionsPageId != undefined) {
       {
         return (
-          <table className="SubmissionsPage">
-            <thead>
-              <Table head={this.currentContenst().fields} />
-            </thead>
-            {this.currentContent()[0]}
-          </table>
+          <div>
+            <button className="pure-button" onClick={this.fetchContestsList}>
+              Form List
+            </button>
+            <table className="SubmissionsPage">
+              <thead>
+                <Table head={this.currentContenst().fields} />
+              </thead>
+              {this.currentContent()[0]}
+            </table>
+          </div>
         );
       }
     }
@@ -196,7 +205,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header message={this.pageHeader()} />
-        {this.currentContent()[1]}
+        <div className="BF">{this.currentContent()[1]}</div>
         {this.switchState()}
       </div>
     );

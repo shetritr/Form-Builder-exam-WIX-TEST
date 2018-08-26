@@ -54,3 +54,26 @@
 .BuildF {
   margin: 2em;
 }
+
+.App .BF {
+  margin: 2em;
+}
+.SubmissionsPage {
+  margin: auto;
+  width: 50%;
+  padding: 0.5em;
+}
+.SubmissionsPage .a {
+  color: black;
+  text-align: center;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0.25em 0.5em;
+  font-weight: bold;
+  background-color: gray;
+}
+.SubmissionsPage .formUsers {
+  text-align: center;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0.25em 0.3em;
+  background-color: darkgray;
+}

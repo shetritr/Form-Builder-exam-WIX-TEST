@@ -17,8 +17,8 @@ export default class Table extends Component {
         <tr>
           {this.props.head.map(column => {
             return (
-              <th className="a" key={column.index}>
-                {column.id}
+              <th className="a" key={column.id}>
+                {column.Label}
               </th>
             );
           })}

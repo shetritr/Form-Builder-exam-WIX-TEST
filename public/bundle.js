@@ -22035,7 +22035,7 @@
 	      }, "/Submissions/" + SubmissionsPageId);
 	      api.fetchSubmissions(PageId).then(function (Page) {
 	        _this.setState({
-	          currentSubmissionsPageId: Page.name,
+	          currentSubmissionsPageId: Page.Name,
 	          currentContestId: PageId,
 	          currentSubmissionsPage: Page
 	        });
@@ -22078,9 +22078,12 @@
 	        });
 	      }));
 	      _this.fetchContestsList();
-	      _this.fetchContestsList();
 	    }, _this.addSubmission = function (id, fields) {
-	      api.addSubmission(id, fields).then(api.fetchContestsList());
+	      api.addSubmission(id, fields).then(api.fetchContestsList().then(function (contests) {
+	        _this.setState({
+	          contests: contests
+	        });
+	      }));
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 	
@@ -22112,8 +22115,6 @@
 	    value: function pageHeader() {
 	      if (this.state.currentSubmissionsPageId) return "Submissions Page :" + this.currentContenst().Name;
 	      if (this.state.currentContestId != undefined) {
-	        console.log(this.currentContenst());
-	
 	        return this.currentContenst().Name;
 	      }
 	
@@ -22123,19 +22124,18 @@
 	    key: "currentContent",
 	    value: function currentContent() {
 	      if (this.state.currentSubmissionsPageId != undefined) {
-	        return [_react2.default.createElement(_Contest2.default, _extends({
-	          contestListClick: this.fetchContestsList,
-	          SubPage: "1"
-	        }, this.state.currentSubmissionsPage)), ""];
+	        return [_react2.default.createElement(_Contest2.default, _extends({ SubPage: "1" }, this.state.currentSubmissionsPage)), ""];
 	      }
 	
 	      if (this.state.currentContestId != undefined) {
 	        if (this.state.currentContestId < 1) {
-	          return [_react2.default.createElement(_BuildF2.default, { addForm: this.addForm }), ""];
+	          return [_react2.default.createElement(_BuildF2.default, {
+	            addForm: this.addForm,
+	            contestListClick: this.fetchContestsList
+	          }), ""];
 	        }
 	        return [_react2.default.createElement(_Contest2.default, _extends({
 	          onSubmissionsClick: this.addSubmission,
-	          formId: this.state.currentContestId,
 	          contestListClick: this.fetchContestsList
 	        }, this.currentContenst())), ""];
 	      }
@@ -22151,14 +22151,23 @@
 	      if (this.state.currentSubmissionsPageId != undefined) {
 	        {
 	          return _react2.default.createElement(
-	            "table",
-	            { className: "SubmissionsPage" },
+	            "div",
+	            null,
 	            _react2.default.createElement(
-	              "thead",
-	              null,
-	              _react2.default.createElement(_Table2.default, { head: this.currentContenst().fields })
+	              "button",
+	              { className: "pure-button", onClick: this.fetchContestsList },
+	              "Form List"
 	            ),
-	            this.currentContent()[0]
+	            _react2.default.createElement(
+	              "table",
+	              { className: "SubmissionsPage" },
+	              _react2.default.createElement(
+	                "thead",
+	                null,
+	                _react2.default.createElement(_Table2.default, { head: this.currentContenst().fields })
+	              ),
+	              this.currentContent()[0]
+	            )
 	          );
 	        }
 	      }
@@ -22187,7 +22196,11 @@
 	        "div",
 	        { className: "App" },
 	        _react2.default.createElement(_Header2.default, { message: this.pageHeader() }),
-	        this.currentContent()[1],
+	        _react2.default.createElement(
+	          "div",
+	          { className: "BF" },
+	          this.currentContent()[1]
+	        ),
 	        this.switchState()
 	      );
 	    }
@@ -22422,25 +22435,29 @@
 	      for (var ref in _this.refs) {
 	        fields.push(_this.refs[ref].value);
 	      }
-	      console.log(_this.props.id);
 	
-	      // this.props.onSubmissionsClick(this.props.Id, fields);
+	      _this.props.onSubmissionsClick(_this.props.id, fields);
+	      _this.props.contestListClick();
 	    }, _this.userTable = function (user) {
-	      console.log(user);
+	      var i = 0;
+	      return user.map(function (userAns) {
+	        i = i + 1;
+	        return _react2.default.createElement(
+	          "th",
+	          { className: "formUsers", key: i },
+	          userAns
+	        );
+	      });
 	    }, _this.switchSubOrSubS = function (SubPage) {
 	      if (SubPage) {
 	        return _react2.default.createElement(
 	          "tbody",
 	          null,
 	          _this.props.Submissions.map(function (user) {
-	            _react2.default.createElement(
+	            return _react2.default.createElement(
 	              "tr",
-	              { className: "Contest" },
-	              _react2.default.createElement(
-	                "th",
-	                null,
-	                _this.userTable(user)
-	              )
+	              { key: _this.props.Submissions.indexOf(user) },
+	              _this.userTable(user)
 	            );
 	          })
 	        );
@@ -22449,9 +22466,9 @@
 	        "div",
 	        { className: "Contest" },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "home-link", onClick: _this.props.contestListClick },
-	          "Contest List"
+	          "button",
+	          { className: "pure-button", onClick: _this.props.contestListClick },
+	          "Form List"
 	        ),
 	        _react2.default.createElement(
 	          "form",
@@ -24157,8 +24174,8 @@
 	          this.props.head.map(function (column) {
 	            return _react2.default.createElement(
 	              "th",
-	              { className: "a", key: column.index },
-	              column.id
+	              { className: "a", key: column.id },
+	              column.Label
 	            );
 	          })
 	        );
@@ -24399,21 +24416,30 @@
 	        "div",
 	        { className: "BuildF" },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "pure-form" },
-	          _react2.default.createElement("input", { ref: "formName", type: "text", placeholder: "Form name" })
+	          "button",
+	          { className: "pure-button", onClick: this.props.contestListClick },
+	          "Form List"
 	        ),
 	        _react2.default.createElement(
 	          "div",
-	          { className: "pure-u-12" },
+	          { className: "text-center" },
 	          _react2.default.createElement(
-	            "button",
-	            {
-	              type: "submit",
-	              className: "pure-button pure-button-primary",
-	              onClick: this.submit
-	            },
-	            "Submit"
+	            "div",
+	            { className: "pure-form " },
+	            _react2.default.createElement("input", { ref: "formName", type: "text", placeholder: "Form name" })
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "pure-u-12" },
+	            _react2.default.createElement(
+	              "button",
+	              {
+	                type: "submit",
+	                className: "pure-button pure-button-primary",
+	                onClick: this.submit
+	              },
+	              "Submit"
+	            )
 	          )
 	        ),
 	        this.newField(),

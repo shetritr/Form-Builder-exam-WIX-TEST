@@ -65,17 +65,22 @@ class BuildF extends Component {
   render() {
     return (
       <div className="BuildF">
-        <div className="pure-form">
-          <input ref="formName" type="text" placeholder="Form name" />
-        </div>
-        <div className="pure-u-12">
-          <button
-            type="submit"
-            className="pure-button pure-button-primary"
-            onClick={this.submit}
-          >
-            Submit
-          </button>
+        <button className="pure-button" onClick={this.props.contestListClick}>
+          Form List
+        </button>
+        <div className="text-center">
+          <div className="pure-form ">
+            <input ref="formName" type="text" placeholder="Form name" />
+          </div>
+          <div className="pure-u-12">
+            <button
+              type="submit"
+              className="pure-button pure-button-primary"
+              onClick={this.submit}
+            >
+              Submit
+            </button>
+          </div>
         </div>
         {this.newField()}
         <div className="pure">

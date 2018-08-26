@@ -7,7 +7,7 @@ let mdb;
 MongoClient.connect(
   config.mongodbUri,
   (err, db) => {
-    assert.equal(null, err); ////temp need to del
+    assert.equal(null, err);
 
     mdb = db;
   }
@@ -79,11 +79,21 @@ router.post("/newform", (req, res) => {
         Name: name,
         Submissions: []
       });
-    });
+    })
+    .catch(console.error);
 });
 router.post("/newSubmission", (req, res) => {
   const id = req.body.id;
   const fields = req.body.fields;
+  mdb
+    .collection("contests")
+    .findOne({ id: id })
+    .then(resp => {
+      resp.Submissions = resp.Submissions + 1;
+
+      mdb.collection("contests").updateOne({ id: id }, resp);
+    });
+
   mdb
     .collection("submissions")
     .findOne({ id: id })
