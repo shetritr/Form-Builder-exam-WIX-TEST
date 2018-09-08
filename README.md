@@ -10,3 +10,7 @@ instructions:
 6. Wait till you see "Express listening on port  *number of port*", by default it's 3030.
 7. Copy the port and write "localhost:" the number of the port.
 8. Enjoy
+
+
+
+< a href = "https://giphy.com/gifs/kEjndBiIP2Od3htK5s/html5" /></a>
